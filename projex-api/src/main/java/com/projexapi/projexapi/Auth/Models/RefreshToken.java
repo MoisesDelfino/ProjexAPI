@@ -1,6 +1,7 @@
 package com.projexapi.projexapi.Auth.Models;
 
 import com.projexapi.projexapi.Setor.Setor;
+import com.projexapi.projexapi.Usuario.Usuario;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -13,7 +14,7 @@ public class RefreshToken {
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private Setor user;
+    private Usuario user;
 
     @Column(nullable = false, unique = true)
     private String token;
@@ -29,11 +30,11 @@ public class RefreshToken {
         this.id = id;
     }
 
-    public Setor getUser() {
+    public Usuario getUser() {
         return user;
     }
 
-    public void setUser(Setor user) {
+    public void setUser(Usuario user) {
         this.user = user;
     }
 

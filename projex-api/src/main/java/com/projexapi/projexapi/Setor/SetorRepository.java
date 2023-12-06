@@ -9,11 +9,10 @@ import java.util.Optional;
 
 public interface SetorRepository extends PagingAndSortingRepository<Setor, Long>, JpaRepository<Setor, Long>,
         QuerydslPredicateExecutor<Setor> {
-    Optional<Setor> findByUsername(String username);
+    Optional<Setor> findByNome(String nome);
 
-    Boolean existsByUsername(String username);
+    Boolean existsByNome(String nome);
 
-    Boolean existsByEmail(String email);
 }
 
 

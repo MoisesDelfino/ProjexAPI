@@ -4,6 +4,7 @@ import com.projexapi.projexapi.Notification.NotificationService;
 import com.projexapi.projexapi.Projeto.Projeto;
 import com.projexapi.projexapi.Projeto.ProjetoService;
 import com.projexapi.projexapi.Setor.Setor;
+import com.projexapi.projexapi.Usuario.Usuario;
 import com.projexapi.projexapi.Utils.Message;
 import com.projexapi.projexapi.Utils.Paginacao;
 import com.querydsl.core.types.Predicate;
@@ -40,11 +41,11 @@ public class ComentarioController {
 
        Projeto projeto = this.projetoService.buscarUmProjeto(idProjeto);
 
-        Setor setor = projeto.getSetor();
+        Usuario usuario = projeto.getUsuario();
 
-        List<String> tokens = setor.getTokensDispositivo();
+        List<String> tokens = usuario.getTokensDispositivo();
 
-        notificationService.sendNotification(tokens, setor.getUsername() + " adicionou um comentário ao projeto " + projeto.getNome() + ".", "Conteúdo: " + criar.getConteudo());
+        notificationService.sendNotification(tokens, usuario.getUsername() + " adicionou um comentário ao projeto " + projeto.getNome() + ".", "Conteúdo: " + criar.getConteudo());
 
        return ResponseEntity.ok(new Message("Comentário cadastrado com sucesso!"));
 

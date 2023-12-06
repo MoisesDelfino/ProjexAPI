@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.projexapi.projexapi.Auth.Models.Role;
 import com.projexapi.projexapi.Enums.Ativo;
 import com.projexapi.projexapi.Projeto.ProjetoRepresentation;
+import com.projexapi.projexapi.Usuario.UsuarioRepresentation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,15 +24,9 @@ public interface SetorRepresentation {
     @AllArgsConstructor
     @NoArgsConstructor
     class Criar {
-        @NotNull(message = "O campo username não pode ser nulo")
-        @NotEmpty(message = "O campo username não pode ser vazio")
-        private String username;
-
-        private String email;
-
-        private String password;
-
-        private Set<Role> roles;
+        @NotNull(message = "O campo nome não pode ser nulo")
+        @NotEmpty(message = "O campo nome não pode ser vazio")
+        private String nome;
 
     }
     @Data
@@ -39,26 +34,11 @@ public interface SetorRepresentation {
     @AllArgsConstructor
     @NoArgsConstructor
     class Atualizar {
-        @NotNull(message = "O campo username não pode ser nulo")
-        @NotEmpty(message = "O campo username não pode ser vazio")
-        private String username;
-
-        private String email;
-
-        private Set<Role> roles;
+        @NotNull(message = "O campo nome não pode ser nulo")
+        @NotEmpty(message = "O campo nome não pode ser vazio")
+        private String nome;
 
         private Ativo ativo;
-
-
-    }
-    @Data
-    @Builder
-    @AllArgsConstructor
-    @NoArgsConstructor
-    class AtualizarDeviceToken {
-
-        private String token_dispositivo;
-
     }
 
     @Data
@@ -68,32 +48,15 @@ public interface SetorRepresentation {
     class Detalhes {
         private Long id;
 
-        @NotNull(message = "O campo username não pode ser nulo")
-        @NotEmpty(message = "O campo username não pode ser vazio")
-        private String username;
-
-        private String email;
-
-        private String password;
-
-
-        private Set<Role> roles;
-
-        private Ativo ativo;
-
-        private List<String> token_dispositivo;
-
+        @NotNull(message = "O campo nome não pode ser nulo")
+        @NotEmpty(message = "O campo nome não pode ser vazio")
+        private String nome;
 
 
         public static SetorRepresentation.Detalhes from(Setor setor) {
             return Detalhes.builder()
                             .id(setor.getId())
-                            .username(setor.getUsername())
-                            .email(setor.getEmail())
-                            .password(setor.getPassword())
-                            .roles(setor.getRoles())
-                            .ativo(setor.getAtivo())
-                            .token_dispositivo(setor.getTokensDispositivo())
+                            .nome(setor.getNome())
                             .build();
         }
 
@@ -104,30 +67,21 @@ public interface SetorRepresentation {
     class Lista {
         private Long id;
 
-        private String username;
-
-        private String email;
-
-        private String password;
-
-        private Set<Role> roles;
+        private String nome;
 
         private Ativo ativo;
 
         private List<ProjetoRepresentation.Padrao> projetos;
 
-        private List<String> token_dispositivo;
+        private List<UsuarioRepresentation.Padrao> usuarios;
 
 
         private static SetorRepresentation.Lista from(Setor setor) {
             return Lista.builder()
                     .id(setor.getId())
-                    .username(setor.getUsername())
-                    .email(setor.getEmail())
-                    .roles(setor.getRoles())
+                    .nome(setor.getNome())
                     .ativo(setor.getAtivo())
                     .projetos(ProjetoRepresentation.Padrao.from(setor.getProjetoList()))
-                    .token_dispositivo(setor.getTokensDispositivo())
                     .build();
         }
 
@@ -142,12 +96,12 @@ public interface SetorRepresentation {
     @Data
     class Padrao {
         private Long id;
-        private String username;
+        private String nome;
 
         public static Padrao from(Setor setor) {
             return Padrao.builder()
                     .id(setor.getId())
-                    .username(setor.getUsername())
+                    .nome(setor.getNome())
                     .build();
         }
 

@@ -4,6 +4,7 @@ import com.projexapi.projexapi.Auth.Models.RefreshToken;
 import com.projexapi.projexapi.Auth.repository.RefreshTokenRepository;
 import com.projexapi.projexapi.Exceptions.TokenRefreshException;
 import com.projexapi.projexapi.Setor.SetorRepository;
+import com.projexapi.projexapi.Usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class RefreshTokenService {
     private RefreshTokenRepository refreshTokenRepository;
 
     @Autowired
-    private SetorRepository setorRepository;
+    private UsuarioRepository usuarioRepository;
 
     public Optional<RefreshToken> findByToken(String token) {
         return refreshTokenRepository.findByToken(token);
@@ -31,7 +32,7 @@ public class RefreshTokenService {
     public RefreshToken createRefreshToken(Long userId) {
         RefreshToken refreshToken = new RefreshToken();
 
-        refreshToken.setUser(setorRepository.findById(userId).get());
+        refreshToken.setUser(usuarioRepository.findById(userId).get());
         refreshToken.setExpiryDate(Instant.now().plusMillis(refreshTokenDurationMs));
         refreshToken.setToken(UUID.randomUUID().toString());
 
@@ -50,6 +51,6 @@ public class RefreshTokenService {
 
     @Transactional
     public int deleteByUserId(Long userId) {
-        return refreshTokenRepository.deleteByUser(setorRepository.findById(userId).get());
+        return refreshTokenRepository.deleteByUser(usuarioRepository.findById(userId).get());
     }
 }

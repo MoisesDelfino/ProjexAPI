@@ -14,9 +14,10 @@ import com.projexapi.projexapi.Auth.security.jwt.JwtUtils;
 import com.projexapi.projexapi.Auth.security.services.UserDetailsImpl;
 import com.projexapi.projexapi.Enums.Ativo;
 import com.projexapi.projexapi.Enums.ERole;
-import com.projexapi.projexapi.Setor.Setor;
 import com.projexapi.projexapi.Exceptions.TokenRefreshException;
-import com.projexapi.projexapi.Setor.SetorRepository;
+import com.projexapi.projexapi.Setor.Setor;
+import com.projexapi.projexapi.Usuario.Usuario;
+import com.projexapi.projexapi.Usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,7 +41,7 @@ public class    AuthController {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    SetorRepository setorRepository;
+    UsuarioRepository usuarioRepository;
 
     @Autowired
     RoleRepository roleRepository;
@@ -80,22 +81,23 @@ public class    AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        if (setorRepository.existsByUsername(signUpRequest.getUsername())) {
+        if (usuarioRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
 
-        if (setorRepository.existsByEmail(signUpRequest.getEmail())) {
+        if (usuarioRepository.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
 
         // Create new user's account
-        Setor user = new Setor(signUpRequest.getUsername(),
+        Usuario user = new Usuario(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getSetor());
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
@@ -143,7 +145,7 @@ public class    AuthController {
 
         user.setRoles(roles);
         user.setAtivo(Ativo.A);
-        setorRepository.save(user);
+        usuarioRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }

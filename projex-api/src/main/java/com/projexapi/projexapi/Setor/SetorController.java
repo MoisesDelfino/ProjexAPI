@@ -1,5 +1,6 @@
 package com.projexapi.projexapi.Setor;
 
+import com.projexapi.projexapi.Risco.RiscoRepresentation;
 import com.projexapi.projexapi.Utils.Message;
 import com.projexapi.projexapi.Utils.Paginacao;
 import com.querydsl.core.types.Predicate;
@@ -82,25 +83,17 @@ public class SetorController {
 
     }
 
-    @PutMapping("/{idSetor}/deviceToken")
-    public ResponseEntity<Message> adicionaDeviceToken(
-            @PathVariable Long idSetor,
-            @RequestBody @Valid SetorRepresentation.AtualizarDeviceToken atualizar){
+    @PostMapping("/")
+    public ResponseEntity<Message> createSetor(
+            @RequestBody @Valid SetorRepresentation.Criar criar) {
 
-            this.setorService.adicionaDeviceToken(idSetor, atualizar);
 
-        return ResponseEntity.ok(new Message("Device token atualizado com sucesso!"));
+        this.setorService.criarSetor(criar);
+
+        return ResponseEntity.ok(new Message("Setor cadastrado com sucesso!"));
+
     }
 
-    @PutMapping("/{idSetor}/atualizaImagem/{fileName}")
-    public ResponseEntity<Message> atualizaImagem(
-            @PathVariable Long idSetor,
-            @PathVariable String fileName){
-
-            this.setorService.atualizaImagem(idSetor, fileName);
-
-        return ResponseEntity.ok(new Message("Imagem atualizada com sucesso!"));
-    }
 
 
     @GetMapping("/{idSetor}")

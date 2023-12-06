@@ -3,6 +3,7 @@ package com.projexapi.projexapi.Auth.payload.request;
 import com.projexapi.projexapi.Auth.Models.Role;
 import com.projexapi.projexapi.Enums.Ativo;
 import com.projexapi.projexapi.Projeto.Projeto;
+import com.projexapi.projexapi.Setor.Setor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -21,10 +22,14 @@ public class SignupRequest {
     private String email;
     
     private Set<String> role;
+
+    private Setor setor;
     
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
+
+    public Setor getSetor(){ return setor;}
 
     public String getUsername() {
         return username;

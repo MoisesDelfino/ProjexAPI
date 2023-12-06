@@ -9,6 +9,7 @@ import com.projexapi.projexapi.Enums.Status;
 import com.projexapi.projexapi.Responsavel.Responsavel;
 import com.projexapi.projexapi.Risco.Risco;
 import com.projexapi.projexapi.Setor.Setor;
+import com.projexapi.projexapi.Usuario.Usuario;
 import lombok.*;
 
 import javax.persistence.*;
@@ -95,6 +96,10 @@ public class Projeto {
     @ManyToOne
     @JsonIgnore
     private Setor setor;
+
+    @ManyToOne
+    @JsonIgnore
+    private Usuario usuario;
 
     @ManyToMany
     @JoinTable(name = "riscos_projetos",

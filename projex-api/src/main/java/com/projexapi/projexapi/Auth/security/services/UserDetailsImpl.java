@@ -2,6 +2,7 @@ package com.projexapi.projexapi.Auth.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projexapi.projexapi.Setor.Setor;
+import com.projexapi.projexapi.Usuario.Usuario;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,7 +35,7 @@ public class UserDetailsImpl implements UserDetails {
 		this.authorities = authorities;
 	}
 
-	public static UserDetailsImpl build(Setor user) {
+	public static UserDetailsImpl build(Usuario user) {
 		List<GrantedAuthority> authorities = user.getRoles().stream()
 				.map(role -> new SimpleGrantedAuthority(role.getName().name()))
 				.collect(Collectors.toList());

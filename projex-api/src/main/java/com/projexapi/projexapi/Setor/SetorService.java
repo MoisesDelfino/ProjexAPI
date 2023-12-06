@@ -26,21 +26,9 @@ public class SetorService {
     public Setor criarSetor(SetorRepresentation.Criar criar) {
 
         return this.setorRepository.save(Setor.builder()
-                .username(criar.getUsername())
-                .email(criar.getEmail())
-                .password(criar.getPassword())
-                .roles(criar.getRoles())
+                .nome(criar.getNome())
                 .ativo(Ativo.A)
                 .build());
-    }
-    public ResponseEntity<Message> atualizaImagem(Long idSetor, String fileName){
-        Setor setor = this.buscarUmSetor(idSetor);
-
-        setor.setImagem(fileName);
-
-        this.setorRepository.save(setor);
-
-        return ResponseEntity.ok(new Message("Imagem atualizada com sucesso!"));
     }
 
 
@@ -52,11 +40,8 @@ public class SetorService {
 
         Setor setorParaAtualizar = Setor.builder()
                 .id(idSetor)
-                .username(atualizar.getUsername())
-                .email(atualizar.getEmail())
-                .roles(atualizar.getRoles())
+                .nome(atualizar.getNome())
                 .ativo((atualizar.getAtivo()))
-                .password(setor.getPassword())
                 .build();
 
         return this.setorRepository.save(setorParaAtualizar);
@@ -68,33 +53,11 @@ public class SetorService {
 
         return this.setorRepository.save(Setor.builder()
                 .id(idSetor)
-                .username(setor.getUsername())
-                .email(setor.getEmail())
-                .password(setor.getPassword())
-                .roles(setor.getRoles())
+                .nome(setor.getNome())
                 .ativo(Ativo.I)
                 .build());
     }
 
-    public ResponseEntity<Message> adicionaDeviceToken(Long idSetor, SetorRepresentation.AtualizarDeviceToken atualizar) {
-        Setor setor = this.buscarUmSetor(idSetor);
-
-        List<String> tokens = setor.getTokensDispositivo();
-        int maxTokens = 5; // Limite máximo de tokens
-
-        if (tokens.size() >= maxTokens) {
-            tokens.remove(0); // Remove o token mais antigo (primeiro elemento da lista)
-        }
-
-        if (!tokens.contains(atualizar.getToken_dispositivo())) {
-            tokens.add(atualizar.getToken_dispositivo()); // Adiciona o novo token ao final da lista
-        }
-
-
-        this.setorRepository.save(setor);
-
-        return ResponseEntity.ok(new Message("Device token inserido com sucesso!"));
-    }
 
 
     public Boolean verificaSeSetorTemProjetos(Long idSetor) {
